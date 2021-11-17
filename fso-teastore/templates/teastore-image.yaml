@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-image
+  labels:
+    framework: java
+spec:
+  replicas: {{ .Values.teastore_image.replicas }}
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-image
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-image
+    spec:
+      containers:
+        - name: teastore-image
+          image: brownkw/teastore-image
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: {{ .Values.teastore_image.resources.memory }}
+              cpu: {{ .Values.teastore_image.resources.cpu }}
+          env:
+            - name: HOST_NAME
+              value: "teastore-image"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teastore-image
+  labels:
+    app: teastore
+    run: teastore-image
+spec:
+  type: {{ .Values.teastore_image.service.type }}
+  ports:
+    - port: {{ .Values.teastore_image.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.teastore_image.service.targetPort }}
+  selector:
+    run: teastore-image

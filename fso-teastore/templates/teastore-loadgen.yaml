@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-loadgen
+spec:
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-loadgen
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-loadgen
+    spec:
+      containers:
+        - name: teastore-loadgen
+          image: brownkw/teastore-loadgen
+          resources:
+            requests:
+              memory: {{ .Values.teastore_loadgen.resources.memory }}
+              cpu: {{ .Values.teastore_loadgen.resources.cpu }}
+          ports:
+            - containerPort: 8080
+          args:
+            - "-t"
+            - "/teastore_browse_nogui.jmx"
+            - "-Jhostname"
+            - "teastore-webui"
+            - "-Jport"
+            - {{ .Values.teastore_webui.service.port }}
+            - "-JnumUser"
+            - {{ .Values.teastore_loadgen.settings.num_users }}
+            - "-JrampUp"
+            - {{ .Values.teastore_loadgen.settings.ramp_up }}
+            - "-n"

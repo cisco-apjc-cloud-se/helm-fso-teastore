@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-registry
+  labels:
+    framework: java
+spec:
+  replicas: {{ .Values.teastore_registry.replicas }}
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-registry
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-registry
+    spec:
+      containers:
+        - name: teastore-registry
+          image: brownkw/teastore-registry
+          resources:
+            requests:
+              memory: {{ .Values.teastore_registry.resources.memory }}
+              cpu: {{ .Values.teastore_registry.resources.cpu }}
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teastore-registry
+  labels:
+    app: teastore
+    run: teastore-registry
+spec:
+  type: {{ .Values.teastore_registry.service.type }}
+  ports:
+    - port: {{ .Values.teastore_registry.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.teastore_registry.service.targetPort }}
+  selector:
+    run: teastore-registry

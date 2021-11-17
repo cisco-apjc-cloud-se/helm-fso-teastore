@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-db
+spec:
+  replicas: {{ .Values.teastore_db.replicas }}
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-db
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-db
+    spec:
+      containers:
+        - name: teastore-db
+          image: descartesresearch/teastore-db
+          resources:
+            requests:
+              memory: {{ .Values.teastore_db.resources.memory }}
+              cpu: {{ .Values.teastore_db.resources.cpu }}
+          ports:
+            - containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teastore-db
+  labels:
+    app: teastore
+    run: teastore-db
+spec:
+  type: {{ .Values.teastore_db.service.type }}
+  ports:
+    - port: {{ .Values.teastore_db.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.teastore_db.service.targetPort }}
+  selector:
+    run: teastore-db

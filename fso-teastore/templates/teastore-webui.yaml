@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-webui
+  labels:
+    framework: java
+spec:
+  replicas: {{ .Values.teastore_webui.replicas }}
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-webui
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-webui
+    spec:
+      containers:
+        - name: teastore-webui
+          image: brownkw/teastore-webui
+          resources:
+            requests:
+              memory: {{ .Values.teastore_webui.resources.memory }}
+              cpu: {{ .Values.teastore_webui.resources.cpu }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: HOST_NAME
+              value: "teastore-webui"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+            - name: PROCESS_PAYMENT
+              value: "true"
+            - name: VISA_URL
+              value: {{ .Values.teastore_webui.env.visa_url }}
+            - name: MASTERCARD_URL
+              value: {{ .Values.teastore_webui.env.mastercard_url }}
+            - name: AMEX_URL
+              value: {{ .Values.teastore_webui.env.amex_url }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teastore-webui
+  labels:
+    app: teastore
+    run: teastore-webui
+spec:
+  type: {{ .Values.teastore_webui.service.type }}
+  ports:
+    - port: {{ .Values.teastore_webui.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.teastore_webui.service.targetPort }}
+  selector:
+    run: teastore-webui

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-persistence
+  labels:
+    framework: java
+spec:
+  replicas: {{ .Values.teastore_persistence.replicas }}
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-persistence
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-persistence
+    spec:
+      containers:
+        - name: teastore-persistence
+          image: brownkw/teastore-persistence
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: {{ .Values.teastore_persistence.resources.memory }}
+              cpu: {{ .Values.teastore_persistence.resources.cpu }}
+          env:
+            - name: HOST_NAME
+              value: "teastore-persistence"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+            - name: DB_HOST
+              value: "teastore-db"
+            - name: DB_PORT
+              value: {{ .Values.teastore_db.service.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teastore-persistence
+  labels:
+    app: teastore
+    run: teastore-persistence
+spec:
+  type: {{ .Values.teastore_persistence.service.type }}
+  ports:
+    - port: {{ .Values.teastore_persistence.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.teastore_persistence.service.targetPort }}
+  selector:
+    run: teastore-persistence
