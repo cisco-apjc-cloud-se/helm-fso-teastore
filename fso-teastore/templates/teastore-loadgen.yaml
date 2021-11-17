@@ -22,15 +22,4 @@ spec:
               cpu: {{ .Values.teastore_loadgen.resources.cpu }}
           ports:
             - containerPort: 8080
-          args:
-            - "-t"
-            - "/teastore_browse_nogui.jmx"
-            - "-Jhostname"
-            - "teastore-webui"
-            - "-Jport"
-            - {{ .Values.teastore_webui.service.port }}
-            - "-JnumUser"
-            - {{ .Values.teastore_loadgen.settings.num_users }}
-            - "-JrampUp"
-            - {{ .Values.teastore_loadgen.settings.ramp_up }}
-            - "-n"
+          args: [ "-t", "/teastore_browse_nogui.jmx", "-Jhostname", "teastore-webui", "-Jport", {{ .Values.teastore_webui.service.port }}, "-JnumUser", {{ .Values.teastore_loadgen.settings.num_users }}, "-JrampUp", {{ .Values.teastore_loadgen.settings.ramp_up }}, "-n"]
