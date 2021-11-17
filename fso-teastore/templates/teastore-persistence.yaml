@@ -33,7 +33,7 @@ spec:
             - name: DB_HOST
               value: "teastore-db"
             - name: DB_PORT
-              value: {{ .Values.teastore_db.service.port }}
+              value: "{{ .Values.teastore_db.service.port }}"
 ---
 apiVersion: v1
 kind: Service
