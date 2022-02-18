@@ -4,17 +4,22 @@ metadata:
   name: teastore-persistence
   labels:
     framework: java
+    app: persistence
+    tier: persistence
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: persistence
 spec:
   replicas: {{ .Values.teastore_persistence.replicas }}
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-persistence
+      app: persistence
+      tier: persistence
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-persistence
+        app: persistence
+        tier: persistence
+        version: v1
     spec:
       containers:
         - name: teastore-persistence
@@ -40,8 +45,8 @@ kind: Service
 metadata:
   name: teastore-persistence
   labels:
-    app: teastore
-    run: teastore-persistence
+    app: persistence
+    tier: persistence
 spec:
   type: {{ .Values.teastore_persistence.service.type }}
   ports:
@@ -49,4 +54,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.teastore_persistence.service.targetPort }}
   selector:
-    run: teastore-persistence
+    tier: persistence

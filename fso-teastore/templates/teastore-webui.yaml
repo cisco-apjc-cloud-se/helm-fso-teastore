@@ -4,20 +4,25 @@ metadata:
   name: teastore-webui
   labels:
     framework: java
+    app: webui
+    tier: webui
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: webui
 spec:
   replicas: {{ .Values.teastore_webui.replicas }}
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-webui
+      app: webui
+      tier: webui
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-webui
+        app: webui
+        tier: webui
+        version: v1
     spec:
       containers:
-        - name: teastore-webui
+        - name: webui
           image: brownkw/teastore-webui
           resources:
             requests:
@@ -44,8 +49,8 @@ kind: Service
 metadata:
   name: teastore-webui
   labels:
-    app: teastore
-    run: teastore-webui
+    app: webui
+    tier: webui
 spec:
   type: {{ .Values.teastore_webui.service.type }}
   ports:
@@ -53,4 +58,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.teastore_webui.service.targetPort }}
   selector:
-    run: teastore-webui
+    tier: webui

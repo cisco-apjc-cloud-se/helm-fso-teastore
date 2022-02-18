@@ -4,17 +4,22 @@ metadata:
   name: teastore-recommender
   labels:
     framework: java
+    app: recommender
+    tier: recommender
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: recommender
 spec:
   replicas: {{ .Values.teastore_recommender.replicas }}
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-recommender
+      app: recommender
+      tier: recommender
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-recommender
+        app: recommender
+        tier: recommender
+        version: v1
     spec:
       containers:
         - name: teastore-recommender
@@ -36,8 +41,8 @@ kind: Service
 metadata:
   name: teastore-recommender
   labels:
-    app: teastore
-    run: teastore-recommender
+    app: recommender
+    tier: recommender
 spec:
   type: {{ .Values.teastore_recommender.service.type }}
   ports:
@@ -45,4 +50,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.teastore_recommender.service.targetPort }}
   selector:
-    run: teastore-recommender
+    tier: recommender

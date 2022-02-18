@@ -2,16 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-loadgen-amex
+  labels:
+    app: loadgen-amex
+    tier: loadgen-amex
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: loadgen-amex
 spec:
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-loadgen-amex
+      app: loadgen-amex
+      tier: loadgen-amex
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-loadgen-amex
+        app: loadgen-amex
+        tier: loadgen-amex
     spec:
       containers:
         - name: teastore-loadgen-amex

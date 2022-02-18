@@ -2,17 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-db
+  labels:
+    app: database
+    tier: database
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: database
 spec:
   replicas: {{ .Values.teastore_db.replicas }}
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-db
+      app: database
+      tier: database
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-db
+        app: database
+        tier: database
+        version: v1
     spec:
       containers:
         - name: teastore-db
@@ -29,8 +35,8 @@ kind: Service
 metadata:
   name: teastore-db
   labels:
-    app: teastore
-    run: teastore-db
+    app: database
+    tier: database
 spec:
   type: {{ .Values.teastore_db.service.type }}
   ports:
@@ -38,4 +44,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.teastore_db.service.targetPort }}
   selector:
-    run: teastore-db
+    tier: database

@@ -4,17 +4,22 @@ metadata:
   name: teastore-auth
   labels:
     framework: java
+    app: auth
+    tier: auth
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: auth
 spec:
   replicas: {{ .Values.teastore_auth.replicas }}
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-auth
+      app: auth
+      tier: auth
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-auth
+        app: auth
+        tier: auth
+        version: v1
     spec:
       containers:
         - name: teastore-auth
@@ -36,8 +41,8 @@ kind: Service
 metadata:
   name: teastore-auth
   labels:
-    app: teastore
-    run: teastore-auth
+    app: auth
+    tier: auth
 spec:
   type: {{ .Values.teastore_auth.service.type }}
   ports:
@@ -45,4 +50,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.teastore_auth.service.targetPort }}
   selector:
-    run: teastore-auth
+    tier: auth

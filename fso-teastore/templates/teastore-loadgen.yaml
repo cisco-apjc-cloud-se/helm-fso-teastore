@@ -2,16 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-loadgen
+  labels:
+    app: loadgen
+    tier: loadgen
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: loadgen
 spec:
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-loadgen
+      app: loadgen
+      tier: loadgen
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-loadgen
+        app: loadgen
+        tier: loadgen
+        version: v1
     spec:
       containers:
         - name: teastore-loadgen

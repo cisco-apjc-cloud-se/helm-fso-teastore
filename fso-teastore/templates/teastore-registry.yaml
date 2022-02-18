@@ -4,17 +4,22 @@ metadata:
   name: teastore-registry
   labels:
     framework: java
+    app: registry
+    tier: registry
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: registry
 spec:
   replicas: {{ .Values.teastore_registry.replicas }}
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-registry
+      app: registry
+      tier: registry
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-registry
+        app: registry
+        tier: registry
+        version: v1
     spec:
       containers:
         - name: teastore-registry
@@ -31,8 +36,8 @@ kind: Service
 metadata:
   name: teastore-registry
   labels:
-    app: teastore
-    run: teastore-registry
+    app: registry
+    tier: registry
 spec:
   type: {{ .Values.teastore_registry.service.type }}
   ports:
@@ -40,4 +45,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.teastore_registry.service.targetPort }}
   selector:
-    run: teastore-registry
+    tier: registry

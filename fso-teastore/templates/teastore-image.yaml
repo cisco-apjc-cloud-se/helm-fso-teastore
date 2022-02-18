@@ -4,17 +4,22 @@ metadata:
   name: teastore-image
   labels:
     framework: java
+    app: image
+    tier: image
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: image
 spec:
   replicas: {{ .Values.teastore_image.replicas }}
   selector:
     matchLabels:
-      app: teastore
-      run: teastore-image
+      app: image
+      tier: image
   template:
     metadata:
       labels:
-        app: teastore
-        run: teastore-image
+        app: image
+        tier: image
+        version: v1
     spec:
       containers:
         - name: teastore-image
@@ -36,8 +41,8 @@ kind: Service
 metadata:
   name: teastore-image
   labels:
-    app: teastore
-    run: teastore-image
+    app: image
+    tier: image
 spec:
   type: {{ .Values.teastore_image.service.type }}
   ports:
@@ -45,4 +50,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.teastore_image.service.targetPort }}
   selector:
-    run: teastore-image
+    tier: image
