@@ -17,6 +17,7 @@ spec:
       labels:
         app: loadgen-amex
         tier: loadgen-amex
+        version: v1
     spec:
       containers:
         - name: teastore-loadgen-amex

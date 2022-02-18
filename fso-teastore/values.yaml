@@ -77,7 +77,12 @@ teastore_registry:
     port: 8080 ## External Port for LoadBalancer/NodePort
 
 teastore_webui:
-  replicas: 2
+  v1:
+    replicas: 1
+  v2:
+    replicas: 1
+  v3:
+    replicas: 0
   resources:
     memory: "256M"
     cpu: "500m"

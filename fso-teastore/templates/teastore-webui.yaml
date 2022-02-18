@@ -1,15 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: teastore-webui
+  name: teastore-webui-v1
   labels:
     framework: java
     app: webui
     tier: webui
+    version: v1
     app.kubernetes.io/part-of: teastore
     app.kubernetes.io/component: webui
 spec:
-  replicas: {{ .Values.teastore_webui.replicas }}
+  replicas: {{ .Values.teastore_webui.v1.replicas }}
   selector:
     matchLabels:
       app: webui
@@ -20,6 +21,100 @@ spec:
         app: webui
         tier: webui
         version: v1
+    spec:
+      containers:
+        - name: webui
+          image: brownkw/teastore-webui
+          resources:
+            requests:
+              memory: {{ .Values.teastore_webui.resources.memory }}
+              cpu: {{ .Values.teastore_webui.resources.cpu }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: HOST_NAME
+              value: "teastore-webui"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+            - name: PROCESS_PAYMENT
+              value: "true"
+            - name: VISA_URL
+              value: {{ .Values.teastore_webui.env.visa_url }}
+            - name: MASTERCARD_URL
+              value: {{ .Values.teastore_webui.env.mastercard_url }}
+            - name: AMEX_URL
+              value: {{ .Values.teastore_webui.env.amex_url }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-webui-v2
+  labels:
+    framework: java
+    app: webui
+    tier: webui
+    version: v2
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: webui
+spec:
+  replicas: {{ .Values.teastore_webui.v2.replicas }}
+  selector:
+    matchLabels:
+      app: webui
+      tier: webui
+  template:
+    metadata:
+      labels:
+        app: webui
+        tier: webui
+        version: v2
+    spec:
+      containers:
+        - name: webui
+          image: brownkw/teastore-webui
+          resources:
+            requests:
+              memory: {{ .Values.teastore_webui.resources.memory }}
+              cpu: {{ .Values.teastore_webui.resources.cpu }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: HOST_NAME
+              value: "teastore-webui"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+            - name: PROCESS_PAYMENT
+              value: "true"
+            - name: VISA_URL
+              value: {{ .Values.teastore_webui.env.visa_url }}
+            - name: MASTERCARD_URL
+              value: {{ .Values.teastore_webui.env.mastercard_url }}
+            - name: AMEX_URL
+              value: {{ .Values.teastore_webui.env.amex_url }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-webui-v3
+  labels:
+    framework: java
+    app: webui
+    tier: webui
+    version: v3
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: webui
+spec:
+  replicas: {{ .Values.teastore_webui.v3.replicas }}
+  selector:
+    matchLabels:
+      app: webui
+      tier: webui
+  template:
+    metadata:
+      labels:
+        app: webui
+        tier: webui
+        version: v3
     spec:
       containers:
         - name: webui
