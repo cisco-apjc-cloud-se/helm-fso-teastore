@@ -23,7 +23,8 @@ spec:
     spec:
       containers:
         - name: teastore-image
-          image: brownkw/teastore-image
+          # image: brownkw/teastore-image
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-image
           ports:
             - containerPort: 8080
           resources:

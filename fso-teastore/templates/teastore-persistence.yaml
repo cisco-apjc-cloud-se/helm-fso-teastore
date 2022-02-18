@@ -23,7 +23,8 @@ spec:
     spec:
       containers:
         - name: teastore-persistence
-          image: brownkw/teastore-persistence
+          # image: brownkw/teastore-persistence
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-persistence
           ports:
             - containerPort: 8080
           resources:

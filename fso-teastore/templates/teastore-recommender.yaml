@@ -23,7 +23,8 @@ spec:
     spec:
       containers:
         - name: teastore-recommender
-          image: brownkw/teastore-recommender
+          # image: brownkw/teastore-recommender
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-recommender
           ports:
             - containerPort: 8080
           resources:

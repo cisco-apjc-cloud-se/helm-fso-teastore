@@ -23,7 +23,8 @@ spec:
     spec:
       containers:
         - name: teastore-registry
-          image: brownkw/teastore-registry
+          # image: brownkw/teastore-registry
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-registry
           resources:
             requests:
               memory: {{ .Values.teastore_registry.resources.memory }}

@@ -1,0 +1,48 @@
+{{ if .Values.OrderProcessor }}
+### Memory Leak Detection ###
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-orderprocessor
+  labels:
+    app: orderprocessor
+    tier: orderprocessor
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: orderprocessor
+spec:
+  selector:
+    matchLabels:
+      app: orderprocessor
+      tier: orderprocessor
+  template:
+    metadata:
+      labels:
+        app: orderprocessor
+        tier: orderprocessor
+        version: v1
+    spec:
+      containers:
+        - name: teastore-orderprocessor
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-orderprocessor
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: {{ .Values.teastore_orderprocessor.resources.memory }}
+              cpu: {{ .Values.teastore_orderprocessor.resources.cpu }}
+            # requests:
+            #   memory: "256Mi"
+            # limits:
+            #   memory: "512Mi"
+          env:
+            - name: HOST_NAME
+              value: "teastore-orderprocessor"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+            - name: MEM_INCREMENT_MB
+              value: "{{ .Values.teastore_orderprocessor.settings.mem_increment_mb }}" # "1"
+            - name: PROCESSING_RATE_SECONDS
+              value: "{{ .Values.teastore_orderprocessor.settings.processing_rate_seconds }}" # "15"
+            - name: MAX_JVM_HEAP
+              value: "{{ .Values.teastore_orderprocessor.settings.max_jvm_heap }}" # "512m"
+      restartPolicy: Always
+{{ end }}

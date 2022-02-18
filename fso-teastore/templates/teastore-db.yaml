@@ -22,7 +22,8 @@ spec:
     spec:
       containers:
         - name: teastore-db
-          image: descartesresearch/teastore-db
+          # image: descartesresearch/teastore-db
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-db
           resources:
             requests:
               memory: {{ .Values.teastore_db.resources.memory }}

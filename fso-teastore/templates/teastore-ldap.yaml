@@ -1,0 +1,51 @@
+{{ if .Values.Log4ShellDemo }}
+### Log4Shell Vulnerabilty Demo ###
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-ldap
+  labels:
+    app: ldap
+    tier: ldap
+    app.kubernetes.io/part-of: teastore
+    app.kubernetes.io/component: ldap
+spec:
+  selector:
+    matchLabels:
+      app: ldap
+      tier: ldap
+  template:
+    metadata:
+      labels:
+        app: ldap
+        tier: ldap
+        version: v1
+    spec:
+      containers:
+        - name: teastore-ldap
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-ldap
+          ports:
+            - containerPort: 8888
+            - containerPort: 1389
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teastore-ldap
+  labels:
+    app: ldap
+    tier: ldap
+spec:
+  type: {{ .Values.teastore_ldap.service.type }}
+  ports:
+    - port: {{ .Values.teastore_ldap.service.revshell.port }} # 8888
+      targetPort: {{ .Values.teastore_ldap.service.revshell.targetPort }} # New 8888
+      protocol: TCP
+      name: reverse-shell
+    - port: {{ .Values.teastore_ldap.service.ldap.port }} # 1389
+      targetPort: {{ .Values.teastore_ldap.service.ldap.targetPort }} # New 1389
+      protocol: TCP
+      name: ldap
+  selector:
+    tier: ldap
+{{ end }}

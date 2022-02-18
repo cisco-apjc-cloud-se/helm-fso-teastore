@@ -21,7 +21,8 @@ spec:
     spec:
       containers:
         - name: teastore-loadgen
-          image: brownkw/teastore-loadgen
+          # image: brownkw/teastore-loadgen
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-loadgen
           resources:
             requests:
               memory: {{ .Values.teastore_loadgen.resources.memory }}
