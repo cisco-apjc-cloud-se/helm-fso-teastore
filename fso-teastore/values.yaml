@@ -32,7 +32,7 @@ teastore_image:
     port: 8080 ## External Port for LoadBalancer/NodePort
 
 teastore_loadgen:
-  # replicas: 1
+  replicas: 0 # Off by default
   resources:
     memory: "256M"
     cpu: "500m"
@@ -41,7 +41,7 @@ teastore_loadgen:
     ramp_up: 1
 
 teastore_loadgen_amex:
-  # replicas: 1
+  replicas: 0 # Off by default
   resources:
     memory: "256M"
     cpu: "500m"
@@ -61,7 +61,7 @@ teastore_persistence:
 
 ### Used for Memory Leak Detection in AppD ###
 teastore_ldap:
-  # replicas: 1
+  replicas: 0
   resources:
     memory: "256M"
     cpu: "500m"
@@ -76,7 +76,7 @@ teastore_ldap:
 
 ### Used for Memory Leak Detection in AppD ###
 teastore_orderprocessor:
-  # replicas: 1
+  replicas: 0
   resources:
     memory: "256M"
     cpu: "500m"
