@@ -72,7 +72,8 @@ spec:
     spec:
       containers:
         - name: webui
-          image: brownkw/teastore-webui
+          # image: brownkw/teastore-webui
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-webui
           resources:
             requests:
               memory: {{ .Values.teastore_webui.resources.memory }}
@@ -119,7 +120,8 @@ spec:
     spec:
       containers:
         - name: webui
-          image: brownkw/teastore-webui
+          # image: brownkw/teastore-webui
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-webui
           resources:
             requests:
               memory: {{ .Values.teastore_webui.resources.memory }}
